@@ -6,14 +6,12 @@ var generateCanvas = function(tictactoe, oColor, xColor) {
 	var displayMark = {
 		'p1': function(row, col) {
 			var ctx = canvas.getContext('2d');
-			// ctx.strokeStyle = "red";
 			ctx.beginPath();
 			ctx.arc(col*100 + 50, row*100 + 50, 40, 0, 2*Math.PI);
 			ctx.stroke();
 		},
 		'p2': function(row, col) {
 			var ctx = canvas.getContext('2d');
-			// ctx.strokeStyle = "blue";
 			ctx.moveTo(col*100+10, row*100+10);
 			ctx.lineTo((col+1)*100-10, (row+1)*100-10);
 			ctx.stroke();
@@ -46,9 +44,9 @@ var generateCanvas = function(tictactoe, oColor, xColor) {
 		ctx.stroke();	
 	}
 
-	function winMessage (msg) {
+	function winMessage (msg, winColor) {
 		var ctx = canvas.getContext('2d');
-		ctx.fillStyle = "black";
+		ctx.fillStyle = winColor;
 		ctx.lineWidth = 2;
 		ctx.textAlign = "center";
 		ctx.font = "16px Arial";
@@ -71,8 +69,7 @@ var generateCanvas = function(tictactoe, oColor, xColor) {
 			ctx.font = "16px Arial";
 			ctx.fillText("O : ", 10, 318);
 			ctx.fillStyle = oColor;
-			// ctx.rect(50, 302, 19, 13);
-			// ctx.fill();
+
 			ctx.fillRect(50, 302, 19, 13);
 			ctx.strokeStyle = "black";
 			ctx.rect(50, 302, 20, 14);
@@ -81,9 +78,8 @@ var generateCanvas = function(tictactoe, oColor, xColor) {
 			ctx.fillStyle = "black";
 			ctx.font = "16px Arial";
 			ctx.fillText("X : ", 110, 318);
-			ctx.fillStyle = "rgb(123,184,80)";
-			// ctx.rect(150, 302, 19, 13);
-			// ctx.fill();
+			ctx.fillStyle = xColor;
+			
 			ctx.fillRect(150, 302, 19, 13);
 			ctx.strokeStyle = "black";
 			ctx.rect(150, 302, 20, 14);
@@ -106,9 +102,10 @@ var generateCanvas = function(tictactoe, oColor, xColor) {
 		var winner = tictactoe.checkWinner();
 		if (winner) {
 			var player = (winner === 1) ? "O" : "X";
-			winMessage("Winner "+ player);
+			var color = (winner === 1) ? oColor : xColor;
+			winMessage("Winner "+ player, color);
 		} else if (tictactoe.isFull()) {
-			winMessage("Draw");
+			winMessage("Draw", "black");
 		}
 	}());
 
