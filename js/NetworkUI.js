@@ -1,6 +1,6 @@
 
 
-(function() {
+var generateNetworkUI = function(nns) {
 	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 			var container, stats;
@@ -45,27 +45,21 @@
 				particles = new THREE.Points( geometry, material );
 				scene.add( particles );
 
-				//
+
 
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
 
-				//
-
 				stats = new Stats();
 				stats.domElement.style.position = 'absolute';
 				stats.domElement.style.top = '0px';
 				container.appendChild( stats.domElement );
 
-				//
-
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
-				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
 
@@ -115,8 +109,6 @@
 
 			}
 
-			//
-
 			function animate() {
 
 				requestAnimationFrame( animate );
@@ -141,8 +133,7 @@
 				renderer.render( scene, camera );
 
 			}
-
-})();
+}
 
 
 

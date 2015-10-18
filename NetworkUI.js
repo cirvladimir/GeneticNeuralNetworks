@@ -54,7 +54,7 @@
 				
 				var cylinder = new THREE.Mesh( geometry2, material2 );
 				scene.add(cylinder);
-				
+
 				
 				var num_neuron = Neuron_Network.vertices.length;
 				
@@ -69,7 +69,7 @@
 							z: 2000 * Math.random() - 1000
 							
 						};
-						//console.log("start_point:" + i + "{ " + start_position.x + "," + start_position.y + "," + start_position.z);
+						
 						var start_vertex = new THREE.Vector3();
 						start_vertex.x = start_position.x;
 						start_vertex.y = start_position.y;
@@ -86,9 +86,9 @@
 								var end_vertex = calculateNewVertex(start_position, latitude, longitude, weight)
 								var end_position = createPoint(end_vertex);
 								geometry.vertices.push( end_vertex );
-								//console.log("end_point " + j + "{" + end_vertex.x + "," + end_vertex.y + "," + end_vertex.z + "}");
 								
-								//list_lines.push(makeLine(start_position, end_position));
+								
+							
 						}
 					}
 				}
@@ -100,15 +100,9 @@
 
 				scene.add( particles );
 
-				// for (var line_index = 0; line_index < list_lines.length; line_index++) {
-				// 	scene.add(list_lines[line_index]);
-				// }
-				scene.add(makeLine);
-				//
-
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setSize( window.innerWidth / 2, window.innerHeight / 2 );
 				container.appendChild( renderer.domElement );
 
 				//
@@ -228,20 +222,6 @@
 				var geometry = new THREE.CylinderGeometry( 5, 5, 20, 32 );
 				var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 				var cylinder = new THREE.Mesh( geometry, material );
-
-
-				// var material = new THREE.LineBasicMaterial({
-				// 	color: 0x0000ff
-				// });
-
-				// var geometry = new THREE.Geometry();
-				// geometry.vertices.push(
-				// 	new THREE.Vector3( start_vertex.x, start_vertex.y, start_vertex.z ),
-				// 	new THREE.Vector3( end_vertex.x, end_vertex.y, end_vertex.z )
-				// );
-
-				// var line = new THREE.Line( geometry, material );
-				// return line;
 			}
 
 			function createPoint(vertex) {
