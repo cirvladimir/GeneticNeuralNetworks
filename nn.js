@@ -109,7 +109,7 @@ var σ = function(z) {
     return 1 / (1 + Math.exp(-z));
 };
 
-var runNetwork = function (nn, input) {
+var runNetwork = function(nn, input) {
     input.forEach(function (v, i) {
         nn.input[i].value = v;
     });
@@ -123,3 +123,35 @@ var runNetwork = function (nn, input) {
     return nn.output.map(function(neuron) { return neuron.value; });
 };
 
+var mutateNetwork = function(nn) {
+    var newNn = { neurons: [], input: [], output: [], layers: [] };
+    var copyNeuron = function(neuron) {
+        return { bias: neuron.bias, connections: [], value: neuron.value };
+    };
+    newNn.input = nn.input.map(function(neuron) {
+        var newNeuron = $(copyNeuron, neuron);
+        newNn.neurons.push(newNeuron);
+        return newNeuron;
+    });
+    newNn.layers = nn.layers.map(function(layer, ind) {
+        return layer.map(function(neuron) {
+            var newNeuron = $(copyNeuron, neuron);
+            newNn.neurons.push(newNeuron);
+            newNeuron.connections = neuron.connections.map(function(con) {
+                var ind = 0;
+                while (nn.neurons[ind] != con.neuron)
+                    ind++;
+                return { weight: con.weight, neuron: newNn.neurons[ind] };
+            });
+            return newNeuron;
+        });
+    });
+    newNn.output = newNn.layers.last();
+    for (var i = 0; i < nn.neurons.length / 3; i++) {
+        newNn.neurons[Math.floor(Math.random() * newNn.neurons.length)].bias += Math.random() * 2 - 1;
+        newNn.neurons[Math.floor(Math.random() * newNn.neurons.length)].connections.forEach(function(con) {
+            con.weight += Math.random() * 2 - 1;
+        });
+    }
+    return newNn;
+};
