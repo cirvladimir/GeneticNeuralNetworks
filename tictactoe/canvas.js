@@ -1,4 +1,4 @@
-var generateCanvas = function(tictactoe) {
+var generateCanvas = function(tictactoe, oColor, xColor) {
 	var canvas = document.createElement("canvas");
 	canvas.width = 300;
 	canvas.height = 320;
@@ -6,14 +6,14 @@ var generateCanvas = function(tictactoe) {
 	var displayMark = {
 		'p1': function(row, col) {
 			var ctx = canvas.getContext('2d');
-
+			// ctx.strokeStyle = "red";
 			ctx.beginPath();
 			ctx.arc(col*100 + 50, row*100 + 50, 40, 0, 2*Math.PI);
 			ctx.stroke();
 		},
 		'p2': function(row, col) {
 			var ctx = canvas.getContext('2d');
-
+			// ctx.strokeStyle = "blue";
 			ctx.moveTo(col*100+10, row*100+10);
 			ctx.lineTo((col+1)*100-10, (row+1)*100-10);
 			ctx.stroke();
@@ -58,12 +58,36 @@ var generateCanvas = function(tictactoe) {
 	(function() {
 		drawBoard();
 
-		var id = tictactoe.id;
-		if (id) {
+		// var id = tictactoe.id;
+		// if (id) {
+		// 	var ctx = canvas.getContext('2d');
+		// 	ctx.fillStyle = "black";
+		// 	ctx.font = "16px Arial";
+		// 	ctx.fillText("X-id: "+id.Xid, "O-id: "+id.Oid, 10,318);
+		// }
+		if (oColor && xColor) {
 			var ctx = canvas.getContext('2d');
 			ctx.fillStyle = "black";
 			ctx.font = "16px Arial";
-			ctx.fillText("X-id: "+id.Xid, "O-id: "+id.Oid, 10,318);
+			ctx.fillText("O : ", 10, 318);
+			ctx.fillStyle = oColor;
+			// ctx.rect(50, 302, 19, 13);
+			// ctx.fill();
+			ctx.fillRect(50, 302, 19, 13);
+			ctx.strokeStyle = "black";
+			ctx.rect(50, 302, 20, 14);
+			ctx.stroke();
+
+			ctx.fillStyle = "black";
+			ctx.font = "16px Arial";
+			ctx.fillText("X : ", 110, 318);
+			ctx.fillStyle = "rgb(123,184,80)";
+			// ctx.rect(150, 302, 19, 13);
+			// ctx.fill();
+			ctx.fillRect(150, 302, 19, 13);
+			ctx.strokeStyle = "black";
+			ctx.rect(150, 302, 20, 14);
+			ctx.stroke();
 		}
 
 		var board = tictactoe.board;
