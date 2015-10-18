@@ -1,4 +1,4 @@
-﻿// This file contains a neural network with functionality to compute output given a network, generate
+// This file contains a neural network with functionality to compute output given a network, generate
 // a random neural network, mutate it a little
 
 // __________████████_____██████
