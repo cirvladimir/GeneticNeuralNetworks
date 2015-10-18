@@ -6,8 +6,6 @@ var games = Array.range(nns.length / 2).map(generateTictactoe);
 var victories = games.map(function() { return -1; });
 var gamesDiv;
 
-var toColor = function(c) { return "rgb(" + (c >> 16) + "," + ((c >> 8) % 256) + "," + (c % 256) + ")"; }
-
 var runFast = false;
 
 // (ზ = function() {
@@ -38,7 +36,7 @@ var oneStepMove = function() {
 		}
 		game.switchPlayer();
 		// if (!runFast)
-			gamesDiv.appendChild(generateCanvas(game, toColor(nns[ind * 2].color), toColor(nns[ind * 2 + 1].color)));
+		gamesDiv.appendChild(generateCanvas(game, nns[ind * 2].color, nns[ind * 2 + 1].color));
 	});
 	// if done
 	if (!victories.some(function(v) { return v == -1; })) {

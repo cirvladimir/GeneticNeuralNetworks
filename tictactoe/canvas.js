@@ -1,4 +1,8 @@
-var generateCanvas = function(tictactoe, oColor, xColor) {
+var generateCanvas = function(tictactoe, oColorV, xColorV) {
+    var toColor = function(c) { return "rgb(" + (c >> 16) + "," + ((c >> 8) % 256) + "," + (c % 256) + ")"; };
+                                         
+    var oColor = toColor(oColorV);
+    var xColor = toColor(xColorV);
 	var canvas = document.createElement("canvas");
 	canvas.width = 300;
 	canvas.height = 320;
@@ -44,8 +48,14 @@ var generateCanvas = function(tictactoe, oColor, xColor) {
 		ctx.stroke();	
 	}
 
-	function winMessage (msg, winColor) {
+	function winMessage (msg, winColor, invert) {
 		var ctx = canvas.getContext('2d');
+		
+		if (invert) {
+			ctx.fillStyle = invert;
+			ctx.fillRect(210, 302, 80, 20);			
+		}
+
 		ctx.fillStyle = winColor;
 		ctx.lineWidth = 2;
 		ctx.textAlign = "center";
@@ -69,7 +79,6 @@ var generateCanvas = function(tictactoe, oColor, xColor) {
 			ctx.font = "16px Arial";
 			ctx.fillText("O : ", 10, 318);
 			ctx.fillStyle = oColor;
-
 			ctx.fillRect(50, 302, 19, 13);
 			ctx.strokeStyle = "black";
 			ctx.rect(50, 302, 20, 14);
@@ -79,7 +88,6 @@ var generateCanvas = function(tictactoe, oColor, xColor) {
 			ctx.font = "16px Arial";
 			ctx.fillText("X : ", 110, 318);
 			ctx.fillStyle = xColor;
-			
 			ctx.fillRect(150, 302, 19, 13);
 			ctx.strokeStyle = "black";
 			ctx.rect(150, 302, 20, 14);
@@ -103,7 +111,12 @@ var generateCanvas = function(tictactoe, oColor, xColor) {
 		if (winner) {
 			var player = (winner === 1) ? "O" : "X";
 			var color = (winner === 1) ? oColor : xColor;
-			winMessage("Winner "+ player, color);
+			var invert;
+			if (color === "rgb(255,255,255)") {
+				invert = 'black';
+			}
+			// var invert = (winner === 1) ? invertColor(oColorV) : invertColor(xColorV);
+			winMessage("Winner "+ player, color, invert);
 		} else if (tictactoe.isFull()) {
 			winMessage("Draw", "black");
 		}
