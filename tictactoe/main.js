@@ -49,6 +49,44 @@ var generateTictactoe = function(Xid, Oid){
 		m.player = (m.player === m.PLAYERS.p1) ? m.PLAYERS.p2 : m.PLAYERS.p1;
 	};
 
+	m.makeMove = function() {
+		var movesLeft = 0;
+		for (var r = 0; r < 3; r++) {
+			for (var c = 0; c < 3; c++) {
+				if (m.board[r][c] == m.EMPTY)
+					movesLeft++;
+			}
+		}
+		var recFunc = function(mLeft) {
+			var best = [null, null, null];
+			for (var r = 0; r < 3; r++) {
+				for (var c = 0; c < 3; c++) {
+					if (m.board[r][c] == m.EMPTY) {
+						m.board[r][c] = m.player;
+						if (m.checkWinner()) {
+							m.board[r][c] = m.EMPTY;
+							return [r,c,1];
+						}
+						if (mLeft == 1) {
+							m.board[r][c] = m.EMPTY;
+							return [r,c,0];
+						}
+						m.switchPlayer();
+						var vals = recFunc(mLeft - 1);
+						if (best[2] == null || -vals[2] > best[2]) {
+							best = vals;
+						}
+						m.switchPlayer();
+						m.board[r][c] = m.EMPTY;
+					}
+				}
+			}
+			return best;
+		};
+		var bestMove = recFunc(movesLeft);
+		m.markSlot(bestMove[0], bestMove[1]);
+	};
+
 	function initBoard() {
 		return [
 			[m.EMPTY, m.EMPTY, m.EMPTY],
