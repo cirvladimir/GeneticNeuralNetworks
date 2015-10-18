@@ -40,7 +40,7 @@
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█
 
 var generateNetwork = function (nLayers, nInput, nOutput) {
-    var nn = { neurons: [], input: [], output: [], layers: [] };
+    var nn = { neurons: [], input: [], output: [], layers: [], color: Math.floor(Math.random() * 256 * 256 * 256) };
     var genNeuron = function() {
         return { bias: Math.random() * 2 - 1, connections: [], value: 0 };
     };
@@ -124,7 +124,14 @@ var runNetwork = function(nn, input) {
 };
 
 var mutateNetwork = function(nn) {
-    var newNn = { neurons: [], input: [], output: [], layers: [] };
+    var randR = Math.random() - 0.5, randG = Math.random() - 0.5, randB = Math.random() - 0.5;
+    var norm = Math.sqrt(randR * randR + randG * randG + randB * randB);
+    randR = Math.floor(20 * randR / norm);
+    randG = Math.floor(20 * randG / norm);
+    randB = Math.floor(20 * randB / norm);
+    var newNn = { neurons: [], input: [], output: [], layers: [], color: ((Math.max(0, Math.min(255, (nn.color >> 16) + randR))) << 16) +
+        ((Math.max(0, Math.min(255, ((nn.color >> 8) % 256) + randG))) << 8) +
+        (Math.max(0, Math.min(255, (nn.color % 256) + randB))) };
     var copyNeuron = function(neuron) {
         return { bias: neuron.bias, connections: [], value: neuron.value };
     };

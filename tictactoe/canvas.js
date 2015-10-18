@@ -1,4 +1,8 @@
-var generateCanvas = function(tictactoe) {
+var generateCanvas = function(tictactoe, oColorV, xColorV) {
+    var toColor = function(c) { return "rgb(" + (c >> 16) + "," + ((c >> 8) % 256) + "," + (c % 256) + ")"; };
+                                         
+    var oColor = toColor(oColorV);
+    var xColor = toColor(xColorV);
 	var canvas = document.createElement("canvas");
 	canvas.width = 300;
 	canvas.height = 320;
@@ -6,14 +10,12 @@ var generateCanvas = function(tictactoe) {
 	var displayMark = {
 		'p1': function(row, col) {
 			var ctx = canvas.getContext('2d');
-
 			ctx.beginPath();
 			ctx.arc(col*100 + 50, row*100 + 50, 40, 0, 2*Math.PI);
 			ctx.stroke();
 		},
 		'p2': function(row, col) {
 			var ctx = canvas.getContext('2d');
-
 			ctx.moveTo(col*100+10, row*100+10);
 			ctx.lineTo((col+1)*100-10, (row+1)*100-10);
 			ctx.stroke();
@@ -46,9 +48,15 @@ var generateCanvas = function(tictactoe) {
 		ctx.stroke();	
 	}
 
-	function winMessage (msg) {
+	function winMessage (msg, winColor, invert) {
 		var ctx = canvas.getContext('2d');
-		ctx.fillStyle = "black";
+		
+		if (invert) {
+			ctx.fillStyle = invert;
+			ctx.fillRect(210, 302, 80, 20);			
+		}
+
+		ctx.fillStyle = winColor;
 		ctx.lineWidth = 2;
 		ctx.textAlign = "center";
 		ctx.font = "16px Arial";
@@ -58,12 +66,32 @@ var generateCanvas = function(tictactoe) {
 	(function() {
 		drawBoard();
 
-		var id = tictactoe.id;
-		if (id) {
+		// var id = tictactoe.id;
+		// if (id) {
+		// 	var ctx = canvas.getContext('2d');
+		// 	ctx.fillStyle = "black";
+		// 	ctx.font = "16px Arial";
+		// 	ctx.fillText("X-id: "+id.Xid, "O-id: "+id.Oid, 10,318);
+		// }
+		if (oColor && xColor) {
 			var ctx = canvas.getContext('2d');
 			ctx.fillStyle = "black";
 			ctx.font = "16px Arial";
-			ctx.fillText("X-id: "+id.Xid, "O-id: "+id.Oid, 10,318);
+			ctx.fillText("O : ", 10, 318);
+			ctx.fillStyle = oColor;
+			ctx.fillRect(50, 302, 19, 13);
+			ctx.strokeStyle = "black";
+			ctx.rect(50, 302, 20, 14);
+			ctx.stroke();
+
+			ctx.fillStyle = "black";
+			ctx.font = "16px Arial";
+			ctx.fillText("X : ", 110, 318);
+			ctx.fillStyle = xColor;
+			ctx.fillRect(150, 302, 19, 13);
+			ctx.strokeStyle = "black";
+			ctx.rect(150, 302, 20, 14);
+			ctx.stroke();
 		}
 
 		var board = tictactoe.board;
@@ -82,9 +110,15 @@ var generateCanvas = function(tictactoe) {
 		var winner = tictactoe.checkWinner();
 		if (winner) {
 			var player = (winner === 1) ? "O" : "X";
-			winMessage("Winner "+ player);
+			var color = (winner === 1) ? oColor : xColor;
+			var invert;
+			if (color === "rgb(255,255,255)") {
+				invert = 'black';
+			}
+			// var invert = (winner === 1) ? invertColor(oColorV) : invertColor(xColorV);
+			winMessage("Winner "+ player, color, invert);
 		} else if (tictactoe.isFull()) {
-			winMessage("Draw");
+			winMessage("Draw", "black");
 		}
 	}());
 
