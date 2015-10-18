@@ -1,4 +1,4 @@
-var TICTACTOE = (function(){
+var generateTictactoe = function(){
 	var m = {};
 	var BOARD_SIZE = 3;
 	m.PLAYERS = {
@@ -111,4 +111,4 @@ var TICTACTOE = (function(){
 	}
 
 	return m;
-}());
+};
