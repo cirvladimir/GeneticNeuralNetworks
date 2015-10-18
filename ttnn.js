@@ -52,6 +52,10 @@ var oneStepMove = function() {
 			nns = nns.shuffle();
 			games = Array.range(nns.length / 2).map(generateTictactoe);
 			victories = games.map(function() { return -1; });
+		} else {
+			nns = nns.shuffle();
+			games = Array.range(nns.length / 2).map(generateTictactoe);
+			victories = games.map(function() { return -1; });
 		}
 	}
 };
