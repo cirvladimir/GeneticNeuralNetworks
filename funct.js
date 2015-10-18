@@ -1,5 +1,5 @@
 ﻿Array.range = function (l) {
-    return new Array(l).fill(null);
+    return Array.apply(null, new Array(l));
 };
 
 Array.prototype.last = function() {
