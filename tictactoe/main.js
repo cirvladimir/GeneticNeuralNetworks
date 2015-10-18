@@ -1,6 +1,8 @@
-var generateTictactoe = function(){
+var generateTictactoe = function(Xid, Oid){
 	var m = {};
 	var BOARD_SIZE = 3;
+
+	if (id) {m.id = {'Xid': Xid, 'Oid':Oid}};
 	m.PLAYERS = {
 		'p1': 1,
 		'p2': 2
@@ -48,7 +50,7 @@ var generateTictactoe = function(){
 	};
 
 	function initBoard() {
-		return [
+		return 0[
 			[m.EMPTY, m.EMPTY, m.EMPTY],
 			[m.EMPTY, m.EMPTY, m.EMPTY],
 			[m.EMPTY, m.EMPTY, m.EMPTY]

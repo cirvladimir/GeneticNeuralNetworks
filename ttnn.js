@@ -32,12 +32,7 @@ var oneStepMove = function() {
 			}
 		}
 		game.switchPlayer();
-		gamesDiv.appendChild(game.board.flatten().reduce(function(canv, fld, ind) { 
-			if (fld == 1) 
-				canv.displayMark.p1(Math.floor(ind / 3), ind % 3); 
-			if (fld == 2) 
-				canv.displayMark.p2(Math.floor(ind / 3), ind % 3); 
-			return canv; }, generateCanvas(game)).canvas);
+		gamesDiv.appendChild(generateCanvas(game));
 	});
 	// if done
 	if (!victories.some(function(v) { return v == -1; })) {

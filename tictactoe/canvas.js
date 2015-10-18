@@ -1,7 +1,7 @@
 var generateCanvas = function(tictactoe) {
 	var canvas = document.createElement("canvas");
 	canvas.width = 300;
-	canvas.height = 300;
+	canvas.height = 320;
 	
 	var displayMark = {
 		'p1': function(row, col) {
@@ -46,8 +46,25 @@ var generateCanvas = function(tictactoe) {
 		ctx.stroke();	
 	}
 
+	function winMessage (msg) {
+		var ctx = canvas.getContext('2d');
+		ctx.fillStyle = "black";
+		ctx.lineWidth = 2;
+		ctx.textAlign = "center";
+		ctx.font = "16px Arial";
+		ctx.fillText(msg, 250,318);
+
+	}
 	(function() {
 		drawBoard();
+
+		var id = tictactoe.id;
+		if (id) {
+			var ctx = canvas.getContext('2d');
+			ctx.fillStyle = "black";
+			ctx.font = "16px Arial";
+			ctx.fillText("X-id: "+id.Xid, "O-id: "+id.Oid, 10,318);
+		}
 
 		var board = tictactoe.board;
 
@@ -61,6 +78,14 @@ var generateCanvas = function(tictactoe) {
 				displayMark['p'+row[j]](i, j);
 			}
 		};
+
+		var winner = tictactoe.checkWinner();
+		if (winner) {
+			var player = (winner === 1) ? "O" : "X";
+			winMessage("Winner "+ player);
+		} else if (tictactoe.isFull()) {
+			winMessage("Draw");
+		}
 	}());
 
 	return canvas;
