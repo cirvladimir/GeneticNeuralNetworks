@@ -103,9 +103,9 @@ var generateTictactoe = function(Xid, Oid){
 
 	// return winner if there's one, otherwise return 0
 	function checkDiagonal() {
-		if((m.board[0][0] === m.board[1][1] && m.board[1][1] === m.board[2][2] && m.board[2][2] === m.EMPTY)) {
+		if((m.board[0][0] === m.board[1][1] && m.board[1][1] === m.board[2][2] && m.board[2][2] != m.EMPTY)) {
 			return m.board[0][0];
-		} else if(m.board[0][2] === m.board[1][1] && m.board[1][1] === m.board[2][0] && m.board[2][0] === m.EMPTY) {
+		} else if(m.board[0][2] === m.board[1][1] && m.board[1][1] === m.board[2][0] && m.board[2][0] != m.EMPTY) {
 			return m.board[0][2];
 		} else {
 			return m.NO_WINNER;

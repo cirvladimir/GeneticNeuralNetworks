@@ -6,6 +6,8 @@ var games = Array.range(nns.length / 2).map(generateTictactoe);
 var victories = games.map(function() { return -1; });
 var gamesDiv;
 
+var toColor = function(c) { return "rgb(" + (c >> 16) + "," + ((c >> 8) % 256) + "," + (c % 256) + ")"; }
+
 // (ზ = function() {
 var oneStepMove = function() {
 	gamesDiv.innerHTML = "";
@@ -32,7 +34,7 @@ var oneStepMove = function() {
 			}
 		}
 		game.switchPlayer();
-		gamesDiv.appendChild(generateCanvas(game));
+		gamesDiv.appendChild(generateCanvas(game, toColor(nns[ind * 2].color), toColor(nns[ind * 2 + 1].color)));
 	});
 	// if done
 	if (!victories.some(function(v) { return v == -1; })) {
@@ -47,6 +49,10 @@ var oneStepMove = function() {
 				return Array.range((1 << (NUM_GAMES - 1)) - 1).map(mutateNetwork.bind(null, surviver)).concat([surviver]);
 			}).flatten();	
 			// restart
+			nns = nns.shuffle();
+			games = Array.range(nns.length / 2).map(generateTictactoe);
+			victories = games.map(function() { return -1; });
+		} else {
 			nns = nns.shuffle();
 			games = Array.range(nns.length / 2).map(generateTictactoe);
 			victories = games.map(function() { return -1; });
