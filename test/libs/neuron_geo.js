@@ -126,14 +126,6 @@ var generate_neuron_geo = function(neighbors) {
 	UVs = computeSphereUVs(icosahedron_verts);
 
 	/// Example of adding edges
-	neighbors = {};
-	neighbors.vectors = [];
-	neighbors.vectors.push([-100, 0, 0]);
-	neighbors.vectors.push([300, 0, 0]);
-	neighbors.vectors.push([0, 100, 0]);
-	neighbors.vectors.push([0, -100, 0]);
-	neighbors.vectors.push([0, 0, 200]);
-	neighbors.vectors.push([0, 0, -200]);
 	var vectors_to_neighbors = neighbors.vectors;
 
 	// Faces are not in the right CCW order - so we need to account for that
@@ -157,9 +149,9 @@ var generate_neuron_geo = function(neighbors) {
 			var angle = Math.acos(dotProduct(normalize(vertex_to_neighbor), vector_to_neighbor_normalized)) * 180 / Math.PI;
 			if (angle > 85.0) {
 				var scale = (90.0 - angle) / 5.0;
-				newPosition[0] = newPosition[0] + test_vector[0] * distance_to_neighbor * scale;
-				newPosition[1] = newPosition[1] + test_vector[1] * distance_to_neighbor * scale;
-				newPosition[2] = newPosition[2] + test_vector[2] * distance_to_neighbor * scale;
+				newPosition[0] = newPosition[0] + test_vector[0] * distance_to_neighbor;
+				newPosition[1] = newPosition[1] + test_vector[1] * distance_to_neighbor;
+				newPosition[2] = newPosition[2] + test_vector[2] * distance_to_neighbor;
 			}
 		}
 
