@@ -33,10 +33,6 @@
 	</head>
 	<body>
 
-		<div id="info">
-			<a href="http://threejs.org" target="_blank">three.js</a> - webgl particle billboards example
-		</div>
-
 		<script src="libs/three.min.js"></script>
 		<script src="libs/OrbitControls.js"></script>
 		<script src="libs/Detector.js"></script>
@@ -213,6 +209,10 @@
 	    </script>
 
 		<script>
+			function getRandomInt(min, max) {
+			  return Math.floor(Math.random() * (max - min)) + min;
+			}
+
 			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 			var container, controls;
@@ -264,23 +264,32 @@
 				    fragmentShader: document.getElementById( 'fragmentShader' ).textContent
 				} );
 
-			    // create a sphere and assign the material
-			    var mesh_sphere = new THREE.Mesh( 
-			        generate_neuron_geo(), 
-			        shader_material 
-			    );
+				var list = [];
 
-			   	var mesh_sphere2 = new THREE.Mesh( 
-			        new THREE.IcosahedronGeometry( 20, 4), 
-			        shader_material 
-			    );
-			    
-			    scene.add( mesh_sphere );
-			    scene.add( mesh_sphere2 );
-			    mesh_sphere.position.set(0, 0, 0);
-			    mesh_sphere2.position.set(-100, 0, 0);
+				for (var i = 0; i < 16; i++) {
+			   		list.push([Math.random() * 500 - 250, Math.random() * 500 - 250, Math.random() * 500 - 250]);
+				}
 
-			    window.mesh = mesh_sphere2;
+				var count = 0;
+			   	for (var i = -2; i < 2; i ++) {
+			   		for (var j = -2; j < 2; j++) {
+			   			var v = [];
+			   			var neighbor = list[getRandomInt(0, 15)];
+			   			var position = [list[count][0], list[count][1], list[count][2]];
+			   			v.push([neighbor[0] - position[0], neighbor[1] - position[1], neighbor[2] - position[2]]);
+
+			   			// create a sphere and assign the material
+					    var mesh_sphere = new THREE.Mesh( 
+					        generate_neuron_geo({vectors: v}), 
+					        shader_material 
+					    );
+
+					    scene.add( mesh_sphere );
+
+					    mesh_sphere.position.set(list[count][0], list[count][1], list[count][2]);
+					    count ++;
+			   		}
+			   	}
 
 				material = new THREE.PointsMaterial( { size: 35, sizeAttenuation: false, map: sprite, alphaTest: 0.5, transparent: true } );
 				material.color.setHSL( 1.0, 0.3, 0.7 );
